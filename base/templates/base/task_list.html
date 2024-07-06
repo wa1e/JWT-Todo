@@ -1,0 +1,31 @@
+{% if request.user.is_authenticated %}
+<p> {{request.user}}</p>
+<form method="post" action="{% url 'logout-user' %}">
+    {% csrf_token %}
+    <button type="submit">logout</button>
+</form>
+{% else %}
+<a href ="{% url 'login' %}">Login</a>
+{% endif %}
+<hr>
+<h1> My TODO LIST</h1>
+
+
+
+<a href = "{% url 'task-create' %}">Add task</a>
+<table>
+    <tr>
+        <th>Items
+        </th>
+    </tr>
+    {%for task in tasks %}
+    <tr>
+        <td> {{task.title}}</td>
+        <td> <a href = "{% url 'task' task.id %}">View Description</a></td>
+        <td> <a href = "{% url 'task-update' task.id %}">Update</a></td>
+        <td> <a href = "{% url 'task-delete' task.id %}">Delete</a></td>
+    </tr>
+    {% empty %}
+    <h3> List is empty</h3>
+    {% endfor %}
+</table>
